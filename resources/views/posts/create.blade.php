@@ -6,7 +6,7 @@
 <div>
     <ul>
         @foreach ($errors->all() as $error)
-            <li>{{ $error }}</li>
+        <li>{{ $error }}</li>
         @endforeach
     </ul>
 </div>
@@ -14,11 +14,9 @@
 <div>
     <form action="{{ route('posts.store') }}" method="POST">
         @csrf
-        <div class="mb-3">
-            <div>
-                <label for="title" class="form-label">Title</label>
-            </div>
-            <input class="title-control" id="title" name="title" placeholder="Title of your post">
+        <div class="input-group input-group-lg mb-3">
+            <span class="input-group-text" id="inputGroup-sizing-lg">Title</span>
+            <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" maxlength="100" required>
         </div>
         <div class="mb-3">
             <div id="editor" style="height: 400px;"></div>
@@ -34,10 +32,11 @@
 </div>
 <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
 <script>
-  const quill = new Quill('#editor', {
-    theme: 'snow'
-  });
-  document.querySelector('form').addEventListener('submit', function() {
-    document.querySelector('#description').value = quill.root.innerHTML;});
+    const quill = new Quill('#editor', {
+        theme: 'snow'
+    });
+    document.querySelector('form').addEventListener('submit', function() {
+        document.querySelector('#description').value = quill.root.innerHTML;
+    });
 </script>
 @endsection
