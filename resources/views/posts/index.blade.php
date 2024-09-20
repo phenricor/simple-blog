@@ -23,4 +23,7 @@
             </div>
         @endforeach
     @endif
+    <div class="my-xl-4 d-flex justify-content-center">
+        {{ $posts->links("pagination::bootstrap-4") }}
+    </div>
 @endsection

@@ -10,7 +10,7 @@ class PostController extends Controller
 {
     public function index()
     {
-        $posts = Post::all()->sortByDesc("created_at");
+        $posts = Post::orderby("created_at", "desc")->paginate(5);
 
         foreach ($posts as $post) {
             $post->short_title = $this->fitText($post->title, 100, "..."); // Ajuste o comprimento conforme necessário
