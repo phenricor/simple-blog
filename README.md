@@ -1,3 +1,4 @@
+<img src="https://i.imgur.com/oVkGd4l.png"></img>
 This is a personal project using Laravel. The application is a simple blog for basic usage, such as posting and commenting.
 # Features
 - Blog posting and management (CRUD)
