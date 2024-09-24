@@ -6,6 +6,9 @@
     <div>
         <p class="h2">{{ $post->title }}</p>
         <p class="text-muted">{{ $post->created_at->format('Y-m-d') }}</p>
+        <div class="d-flex justify-content-center align-items-center">
+            <img src="{{ asset('storage/' . $post->image) }}" alt="" style="width:60%;height:60%;">
+        </div>
         <div>
             {!! $post->description !!}
         </div>

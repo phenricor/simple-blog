@@ -13,10 +13,25 @@
                 <a style="text-decoration: none" href="{{ route('posts.show', $post) }}">
                     <p class="h2 text-dark font-weight-bold">{{ $post->short_title }}</p>
                 </a>
-                <p style="font-size:10px">{{ $post->created_at }}</p>
+                <p class="mb-0" style="font-size:10px">{{ $post->created_at }}</p>
+                @if($post->image)
+                <div class="container ps-0">
+                    <div class="row align-items-start">
+                        <div class="col pt-4">
+                            {!! strip_tags($post->short_description) !!}
+                        </div>
+                        <div class="col">
+                            <div class="d-flex justify-content-center align-items-center">
+                                <img src="{{ asset('storage/' . $post->image) }}" alt="" style="width:80%;height:80%;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @else
                 <div>
                     {!! strip_tags($post->short_description) !!}
                 </div>
+                @endif
                 <div class="mt-md-3">
                     <p style="color:gray">{{ $post->comments()->count() }} comentários</p>
                 </div>

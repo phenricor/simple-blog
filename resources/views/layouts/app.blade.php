@@ -18,7 +18,7 @@
 </head>
 <body style="font-family: 'Roboto', sans-serif;">
     <nav class="navbar navbar-expand-md navbar-light bg-light shadow-sm mb-xl-5 py-xl-4">
-        <div class="container" style="max-width:900px">
+        <div class="container">
             <a class="navbar-brand" href="{{ url('/') }}">
                 <p class="h3">Laravel Blog Project</p>
             </a>
@@ -42,7 +42,7 @@
     </nav>
 
     <!-- Main Content -->
-    <main class="container" style="max-width:900px">
+    <main class="container" style="max-width:700px">
         @yield('content')
     </main>
 

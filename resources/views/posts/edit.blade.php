@@ -13,12 +13,16 @@
 @endif
 
 <div>
-    <form action="{{ route('posts.update', $post->id) }}" method="POST">
+    <form action="{{ route('posts.update', $post->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
         <div class="input-group input-group-lg mb-3">
             <span class="input-group-text" id="inputGroup-sizing-lg">Title</span>
-            <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" maxlength="100" value="{{ $post->title }}" required>
+            <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" maxlength="100" name="title" id="title" value="{{ $post->title }}" required>
+        </div>
+        <div class="mb-3">
+            <label for="formFile" class="form-label">Image</label>
+            <input class="form-control" type="file" id="image" name="image" value="{{ $post->image }}">
         </div>
         <div class="mb-3">
             <div id="editor" style="height: 400px;">{!! $post->description !!}</div>
