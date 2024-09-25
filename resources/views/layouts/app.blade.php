@@ -21,7 +21,7 @@
         <div class="container">
             <a class="navbar-brand" href="{{ url('/') }}">
                 <div class="d-flex align-items-end">
-                    <img class="me-3" src="favicon.ico" alt="">
+                    <img class="me-3" src="{{ asset('favicon.ico') }}" alt="">
                     <p class="h3">{{env('APP_NAME')}}</p>
                 </div>
             </a>
@@ -35,9 +35,14 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/">Home</a>
                     </li>
+                    @if (Auth::check())
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('posts.create') }}">New Post</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('admin.logout') }}">Logout</a>
+                    </li>
+                    @endif
                 </ul>
             </div>
 

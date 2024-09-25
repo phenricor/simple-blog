@@ -1,4 +1,4 @@
-<img src="https://i.imgur.com/oVkGd4l.png"></img>
+<img src="https://i.imgur.com/Ji4Xtmw.png"></img>
 This is a personal project using Laravel. The application is a simple blog for basic usage, such as posting and commenting.
 # Features
 - Blog posting and management (CRUD)
@@ -26,6 +26,11 @@ composer install
 3. Set up the environment variables:
 ```
 cp .env.example .env
+```
+4. Change the admin credentials on .env:
+```
+ADMIN_USERNAME="admin"
+ADMIN_PASSWORD="00000"
 ```
 4. Run migrations and seed the database:
 ```

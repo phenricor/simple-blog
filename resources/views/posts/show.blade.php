@@ -21,6 +21,7 @@
         </div>
         @endif
     </div>
+    @if (Auth::check())
     <div style="display:flex; justify-content: flex-start; gap:10px">
         <a type="button" class="btn btn-primary" href="{{ route('posts.edit', $post) }}">
             <i class="fa-solid fa-pencil"></i>
@@ -33,6 +34,7 @@
             </button>
         </form>
     </div>
+    @endif
 </div>
 <div class="container">
     <p class="h2 mt-xl-5" id="comment-section">Comments</p>
@@ -53,6 +55,7 @@
                 <p><b>{{ $comment->user->name }}</b> says:</p>
             </div>
             <p>{{ $comment->content }}</p>
+            @if(Auth::check())
             <form action="{{ route('comments.destroy', $comment) }}" method='POST'>
                 @csrf
                 @method('DELETE')
@@ -61,6 +64,7 @@
                     <i class="fas fa-trash"></i>
                 </button>
             </form>
+            @endif
         </div>
         @endforeach
     </div>
