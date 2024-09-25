@@ -1,24 +1,19 @@
 @extends('layouts.app')
-@section('title', 'Laravel Blog Project')
+@section('title', $title)
 
 @section('content')
-    @if($posts->count() <= 0)
-        <div>
-            <h2>No posts available.</h2>
-        </div>
-    @else
-    <p class="h1 fw-bold">Articles</p>
-        @foreach ($posts as $post)
+<p class="h3">{{$posts->count()}} results for category "{{ $categoryName }}"</p>
+@foreach ($posts as $post)
             <div class="card px-md-4 pt-md-4 my-md-2">
                 <a style="text-decoration: none" href="{{ route('posts.show', $post) }}">
-                    <p class="h2 text-dark font-weight-bold">{{ Str::limit($post->title, 100) }}</p>
+                    <p class="h2 text-dark font-weight-bold">{{ $post->title }}</p>
                 </a>
                 <p class="mb-0" style="font-size:10px">{{ $post->created_at }}</p>
                 @if($post->image)
                 <div class="container ps-0">
                     <div class="row align-items-start">
                         <div class="col pt-4">
-                            {!! strip_tags(Str::limit($post->description, 400)) !!}
+                            {!! strip_tags(Str::limit($post->description,300)) !!}
                         </div>
                         <div class="col">
                             <div class="d-flex justify-content-center align-items-center">
@@ -29,7 +24,7 @@
                 </div>
                 @else
                 <div>
-                    {!! strip_tags(Str::limit($post->description, 400)) !!}
+                    {!! strip_tags(Str::limit($post->description,300)) !!}
                 </div>
                 @endif
                 <div class="container ps-0 pt-2">
@@ -42,8 +37,4 @@
                 </div>
             </div>
         @endforeach
-    @endif
-    <div class="my-xl-4 d-flex justify-content-center">
-        {{ $posts->links("pagination::bootstrap-4") }}
-    </div>
 @endsection

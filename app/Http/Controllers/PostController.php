@@ -5,19 +5,13 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Str;
 use App\Models\Post;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
+use App\Http\Controllers\CategoryController;
 
 class PostController extends Controller
 {
     public function index()
     {
         $posts = Post::orderby("created_at", "desc")->paginate(5);
-
-        foreach ($posts as $post) {
-            $post->short_title = $this->fitText($post->title, 100, "..."); // Ajuste o comprimento conforme necessário
-            $post->short_description = $this->fitText($post->description, 400, " (...)");
-        }
-
         return view('posts.index', compact('posts'));
     }
 
@@ -31,17 +25,22 @@ class PostController extends Controller
         $request->validate([
             'title' => 'required',
             'description' => 'required',
-            'image' => 'nullable|file|mimes:jpg,jpeg,png,gif,pdf|max:2048' 
+            'image' => 'nullable|file|mimes:jpg,jpeg,png,gif,pdf|max:2048',
+            'category' => 'nullable'
         ]);
-        $slug = Str::slug($request->title);
-        $fileName = $slug.'-'.time().'.'.$request->image->extension();
-        $filePath = $request->file('image')->storeAs('posts', $fileName, 'public');
         $post = new Post();
         $post->title = $request->title;
         $post->description = $request->description;
-        $post->image = $filePath;
+        if ($request->hasFile('image')) {
+            $slug = Str::slug($request->title);
+            $fileName = $slug.'-'.time().'.'.$request->image->extension();
+            $filePath = $request->file('image')->storeAs('posts', $fileName, 'public');
+            $post->image = $filePath;
+        }
         $post->save();
 
+        $categoryController = new CategoryController;
+        $categoryController->store($request->category, $post);
         return redirect()->route('posts.index');
     }
 
@@ -78,6 +77,10 @@ class PostController extends Controller
             $post->image = $filePath;
         }
         $post->update();
+
+        $categoryController = new CategoryController;
+        $categoryController->update($request->category, $post);
+
         return redirect()->route('posts.index');
     }
 
@@ -85,17 +88,5 @@ class PostController extends Controller
     {
         $post->delete();
         return redirect()->route('posts.index');
-    }
-
-    public function fitText($text, $len, $etc)
-    {
-        if(strlen($text) > $len) 
-        {
-            return Str::take($text, $len) . $etc;
-        }
-        else 
-        {
-            return $text;
-        }       
     }
 }

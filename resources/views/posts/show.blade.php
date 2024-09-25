@@ -9,9 +9,17 @@
         <div class="d-flex justify-content-center align-items-center">
             <img src="{{ asset('storage/' . $post->image) }}" alt="" style="width:60%;height:60%;">
         </div>
-        <div>
+        <div class="my-3">
             {!! $post->description !!}
         </div>
+        @if ($post->categories->count() > 0)
+        <div class="container ps-0 mb-3">
+            <span class="fw-bold">Categories:</span>
+            @foreach ($post->categories as $category)
+            <a href="" class="badge bg-dark" style="border-radius:0; text-decoration:none">{{ $category->name }}</a>
+            @endforeach
+        </div>
+        @endif
     </div>
     <div style="display:flex; justify-content: flex-start; gap:10px">
         <a type="button" class="btn btn-primary" href="{{ route('posts.edit', $post) }}">

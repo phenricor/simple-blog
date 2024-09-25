@@ -28,6 +28,13 @@
             <div id="editor" style="height: 400px;">{!! $post->description !!}</div>
             <input type="hidden" name="description" id="description">
         </div>
+        <div class="input-group mb-1">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-default">Categories</span>
+            </div>
+            <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" id="category" name="category" value="{{$post->categories->pluck('name')->implode(', ');}}">
+        </div>
+        <p style="font-size:10px">Separate categories using comma (,).</p>
         <div>
             <button type="submit" class="btn btn-success">Submit</button>
             <a class="btn btn-secondary" href="{{ route('posts.index') }}">Cancel</a>
