@@ -12,5 +12,6 @@ Route::get('/admin/logout', [UserController::class, 'logout'])->name("admin.logo
 
 Route::get('/', [PostController::class, 'index']);
 Route::get('/categories/search', [CategoryController::class, 'search'])->name('categories.search');
-Route::resource('posts', PostController::class);
+Route::resource('posts', PostController::class)->except(['show']);
+Route::get('/posts/{slug}', [PostController::class, 'show'])->name('posts.show');
 Route::resource('comments', CommentController::class);

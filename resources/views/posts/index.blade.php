@@ -10,7 +10,7 @@
     <p class="h1 fw-bold">Articles</p>
         @foreach ($posts as $post)
             <div class="card px-md-4 pt-md-4 my-md-2">
-                <a style="text-decoration: none" href="{{ route('posts.show', $post) }}">
+                <a style="text-decoration: none" href="{{ route('posts.show', $post->slug) }}">
                     <p class="h2 text-dark font-weight-bold">{{ Str::limit($post->title, 100) }}</p>
                 </a>
                 <p class="mb-0" style="font-size:10px">{{ $post->created_at }}</p>

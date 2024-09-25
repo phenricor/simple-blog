@@ -31,8 +31,9 @@ class PostController extends Controller
         $post = new Post();
         $post->title = $request->title;
         $post->description = $request->description;
+        $slug = $this->createSlug($request->title);
+        $post->slug = $slug;
         if ($request->hasFile('image')) {
-            $slug = Str::slug($request->title);
             $fileName = $slug.'-'.time().'.'.$request->image->extension();
             $filePath = $request->file('image')->storeAs('posts', $fileName, 'public');
             $post->image = $filePath;
@@ -44,8 +45,10 @@ class PostController extends Controller
         return redirect()->route('posts.index');
     }
 
-    public function show(Post $post)
+    public function show($slug)
     {
+        $post = Post::where('slug', $slug)->firstOrFail();
+
         $commentController = new CommentController;
         $comments = $commentController->index()->where('post_id', $post->id)->sortByDesc("created_at");
 
@@ -59,10 +62,6 @@ class PostController extends Controller
 
     public function update(Request $request, Post $post)
     {
-        #if ($request->title == $post->title && $request->description == $request->description) {
-        #    return redirect()->back()->withErrors(['error' => 'Please provide a new title and description for updating.']);
-        #}
-
         $request->validate([
             'title' => 'required',
             'description' => 'required',
@@ -88,5 +87,18 @@ class PostController extends Controller
     {
         $post->delete();
         return redirect()->route('posts.index');
+    }
+
+    public function createSlug($title)
+    {
+        // Counting all posts even the ones soft deleted
+        $count = Post::withTrashed()->where("title", $title)->count();
+        $slug = Str::slug($title);
+        if ($count > 0) {
+            return $slug = $slug . "-" . $count;
+        }
+        else {
+            return $slug = $slug;
+        }
     }
 }
