@@ -17,8 +17,8 @@
                 @if($post->image)
                 <div class="container ps-0">
                     <div class="row align-items-start">
-                        <div class="col pt-4">
-                            {!! strip_tags(Str::limit($post->description, 400)) !!}
+                        <div class="col pt-1">
+                            {!! strip_tags(Str::limit($post->description, 400)) !!} 
                         </div>
                         <div class="col">
                             <div class="d-flex justify-content-center align-items-center">
@@ -28,7 +28,7 @@
                     </div>
                 </div>
                 @else
-                <div>
+                <div class="pt-1">
                     {!! strip_tags(Str::limit($post->description, 400)) !!}
                 </div>
                 @endif
@@ -38,7 +38,9 @@
                     @endforeach
                 </div>
                 <div class="mt-md-3">
-                    <p style="color:gray">{{ $post->comments()->count() }} comments</p>
+                    <a style="text-decoration:none" href="{{ route('posts.show', $post) }}#comment-section">
+                        <p style="color:gray">{{ $post->comments()->count() }} comments</p>
+                    </a>
                 </div>
             </div>
         @endforeach

@@ -35,7 +35,7 @@
     </div>
 </div>
 <div class="container">
-    <p class="h2 mt-xl-5">Comments</p>
+    <p class="h2 mt-xl-5" id="comment-section">Comments</p>
     <form action="{{ route('comments.store') }}" method="POST">
         @csrf
         <div class="form-group">
