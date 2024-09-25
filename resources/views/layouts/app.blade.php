@@ -20,7 +20,10 @@
     <nav class="navbar navbar-expand-md navbar-light bg-light shadow-sm mb-xl-5 py-xl-4">
         <div class="container">
             <a class="navbar-brand" href="{{ url('/') }}">
-                <p class="h3">{{env('APP_NAME')}}</p>
+                <div class="d-flex align-items-end">
+                    <img class="me-3" src="favicon.ico" alt="">
+                    <p class="h3">{{env('APP_NAME')}}</p>
+                </div>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                 <span class="navbar-toggler-icon"></span>
