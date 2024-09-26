@@ -20,8 +20,8 @@
 
 <body style="font-family: 'Roboto', sans-serif;">
     <main>
-        <div class="position-absolute top-0 start-50 translate-middle d-flex align-items-end" style="margin-top:250px">
-            <img src="favicon.ico" class="me-4">
+        <div class="position-absolute top-0 start-50 translate-middle d-flex align-items-end" style="margin-top:100px">
+            <img src="{{ asset('favicon.ico') }}" class="me-4">
             <p class="h3">{{env('APP_NAME')}}</p>
         </div>
         @if ($message = Session::get('error'))
