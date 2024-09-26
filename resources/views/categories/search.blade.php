@@ -5,7 +5,7 @@
 <p class="h3">{{$posts->count()}} results for category "{{ $categoryName }}"</p>
 @foreach ($posts as $post)
             <div class="card px-md-4 pt-md-4 my-md-2">
-                <a style="text-decoration: none" href="{{ route('posts.show', $post) }}">
+                <a style="text-decoration: none" href="{{ route('posts.show', $post->slug) }}">
                     <p class="h2 text-dark font-weight-bold">{{ $post->title }}</p>
                 </a>
                 <p class="mb-0" style="font-size:10px">{{ $post->created_at }}</p>
@@ -32,8 +32,13 @@
                         <a href="/categories/search?id={{$category->id}}" class="badge bg-dark" style="border-radius:0; text-decoration:none">{{ $category->name }}</a>
                     @endforeach
                 </div>
-                <div class="mt-md-3">
-                    <p style="color:gray">{{ $post->comments()->count() }} comments</p>
+                <div class="mt-2 mb-3">
+                    <a style="text-decoration:none" href="{{ route('posts.show', $post->slug) }}#comment-section">
+                        <span style="color:gray">{{ $post->countApprovedComments() }} comments</span>
+                        @if (Auth::check() && $post->countPendingComments() > 0)
+                            <span style="color:gray">({{ $post->countPendingComments() }} waiting approval)</span>
+                        @endif
+                    </a>
                 </div>
             </div>
         @endforeach

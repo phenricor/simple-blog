@@ -32,14 +32,17 @@
                     {!! strip_tags(Str::limit($post->description, 400)) !!}
                 </div>
                 @endif
-                <div class="container ps-0 pt-2">
+                <div class="container ps-0">
                     @foreach ($post->categories as $category)
                         <a href="/categories/search?id={{$category->id}}" class="badge bg-dark" style="border-radius:0; text-decoration:none">{{ $category->name }}</a>
                     @endforeach
                 </div>
-                <div class="mt-md-3">
-                    <a style="text-decoration:none" href="{{ route('posts.show', $post) }}#comment-section">
-                        <p style="color:gray">{{ $post->comments()->count() }} comments</p>
+                <div class="mt-2 mb-3">
+                    <a style="text-decoration:none" href="{{ route('posts.show', $post->slug) }}#comment-section">
+                        <span style="color:gray">{{ $post->countApprovedComments() }} comments</span>
+                        @if (Auth::check() && $post->countPendingComments() > 0)
+                            <span style="color:gray">({{ $post->countPendingComments() }} waiting approval)</span>
+                        @endif
                     </a>
                 </div>
             </div>

@@ -15,18 +15,23 @@ class CommentController extends Controller
 
     public function store(Request $request) {
         $request->validate([
-            'content' => 'required',
+            'content' => 'required|max:255',
             'post_id' => 'required',
-            'user_id' => 'required'
+            'name' => 'required|max:60',
+            'email' => 'required|email'
         ]);
-
-        Comment::create($request->all());
+        $comment = new Comment();
+        $comment->content = $request->content;
+        $comment->post_id = $request->post_id;
+        $comment->name = $request->name;
+        $comment->email = $request->email;
+        $comment->save();
         return redirect()->back()->with('success', 'Comment added successfully!');
     }
 
     public function destroy(Comment $comment, Request $request)
     {
         $comment->delete();
-        return redirect()->route('posts.show', $request->post_id);
+        return redirect()->back()->with('success', 'Comment deleted successfully!');
     }
 }

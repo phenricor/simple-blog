@@ -6,6 +6,8 @@ This is a personal project using Laravel. The application is a simple blog for b
 - Rich text editor
 - Image uploading
 - Comment section
+- Categories
+- Admin features
 # Requirements
 1. PHP >= 8.0
 2. Composer

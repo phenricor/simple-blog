@@ -36,26 +36,65 @@
     </div>
     @endif
 </div>
-<div class="container">
-    <p class="h2 mt-xl-5" id="comment-section">Comments</p>
-    <form action="{{ route('comments.store') }}" method="POST">
-        @csrf
-        <div class="form-group">
-            <textarea name="content" id="content" class="form-control" rows="5" required></textarea>
+<!-- Comment section -->
+<div class="container my-4">
+    <p class="h4">Leave a comment</p>
+    <div class="card px-4 py-4" id="add-comment-section">
+        @if ($message = Session::get('error'))
+        <div class="alert alert-danger alert-block">
+            <button     type="button" class="close" data-dismiss="alert">×</button>
+            <strong>{{ $message }}</strong>
         </div>
-        <button type="submit" class="btn btn-primary mt-md-3">Submit</button>
-        <input type="hidden" id="post_id" name="post_id" value="{{ $post->id }}">
-        <input type="hidden" id="user_id" name="user_id" value="1">
-    </form>
-    <div>
+        @endif
+
+        @if (count($errors) > 0)
+        <div class="alert alert-danger">
+            <ul>
+                @foreach($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
+        <form action="{{ route('comments.store') }}" method="POST">
+            @csrf
+            <div id="content-box" class="my-0">
+                <label class="fw-bold" for="content">Message</label>
+                <textarea maxlength="255" rows='5' name="content" id="content" class="form-control" aria-label="With textarea"></textarea>
+            </div>
+            <div id="name-box" class="my-2">
+                <div>
+                    <label class="fw-bold" for="name">Name</label>
+                </div>
+                <input placeholder="Your name" maxlength="60" class="form-control" type="text" name="name" id="name" required>
+            </div>
+            <div id="email-box" class="my-2">
+                <div>
+                    <label class="fw-bold" for="email">Email</label>
+                </div>
+                <input placeholder="Your e-mail" maxlength="60" class="form-control" type="email" name="email" id="email" required>
+            </div>
+            <input type="hidden" id="post_id" name="post_id" value="{{ $post->id }}">
+            <button type="submit" class="mt-3 btn btn-outline-primary">Submit comment</button>
+        </form>
+    </div>
+<!-- Admins can see comments with any status. While guests only with status approved (id 1) -->
+    <div class="my-3">
+        <p class="h4" id="comment-section" name="comment-section">Comments</p>
+        @if(Auth::check())
+        @if($comments->count() <= 0)
+        <p>No comments yet</p>
+        @else
         @foreach ($comments as $comment)
-        <div style="width:80%; word-wrap: break-word; border-radius:5px; margin-top: 10px; padding: 10px 10px 10px 10px">
+        <div class="container ps-0">
             <div>
-                <p style="margin-bottom:0px; font-size:10px">{{ $comment->created_at }}</p>
-                <p><b>{{ $comment->user->name }}</b> says:</p>
+                <span class="fw-bold">{{ $comment->name }}</span>
+                <span>({{ $comment->created_at }}):</span>
+                <div>
+                    <p class='{{ $comment->statusColor }}'>{{ $comment->statusString }}</p>
+                </div>
             </div>
             <p>{{ $comment->content }}</p>
-            @if(Auth::check())
             <form action="{{ route('comments.destroy', $comment) }}" method='POST'>
                 @csrf
                 @method('DELETE')
@@ -64,9 +103,27 @@
                     <i class="fas fa-trash"></i>
                 </button>
             </form>
-            @endif
         </div>
         @endforeach
+        @endif
+        @else
+        @if ($comments->where('status', 1)->count() <= 0)
+            <p>No comments yet<p>
+                @else
+                @foreach($comments->where('status',1)->get() as $comment)
+            <div class="container ps-0">
+                <div>
+                    <span class="fw-bold">{{ $comment->name }}</span>
+                    <span>({{ $comment->created_at }}):</span>
+                    <div>
+                        <p class='{{ $comment->statusColor }}'>{{ $comment->statusString }}</p>
+                    </div>
+                </div>
+                <p>{{ $comment->content }}</p>
+            </div>
+            @endforeach
+            @endif
+            @endif
     </div>
 </div>
 @endsection
