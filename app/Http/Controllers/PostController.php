@@ -55,8 +55,9 @@ class PostController extends Controller
         return view('posts.show', compact('post', 'comments'));
     }
 
-    public function edit(Post $post)
+    public function edit($slug)
     {
+        $post = Post::where('slug', $slug)->firstOrFail();
         return view('posts.edit', compact('post'));
     }
 
@@ -80,7 +81,7 @@ class PostController extends Controller
         $categoryController = new CategoryController;
         $categoryController->update($request->category, $post);
 
-        return redirect()->route('posts.index');
+        return redirect()->route('posts.show', $post->slug);
     }
 
     public function destroy(Post $post)

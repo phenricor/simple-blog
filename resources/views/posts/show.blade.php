@@ -23,7 +23,7 @@
     </div>
     @if (Auth::check())
     <div style="display:flex; justify-content: flex-start; gap:10px">
-        <a type="button" class="btn btn-primary" href="{{ route('posts.edit', $post) }}">
+        <a type="button" class="btn btn-primary" href="{{ route('posts.edit', $post->slug) }}">
             <i class="fa-solid fa-pencil"></i>
         </a>
         <form action="{{ route('posts.destroy', $post) }}" method='POST'>
