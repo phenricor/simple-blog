@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CommentController;
 use Illuminate\Support\Facades\Route;
@@ -13,13 +14,18 @@ Route::get('/admin', [LoginController::class, 'login'])->name('login');
 Route::post('/admin/login', [LoginController::class, 'auth'])->name("admin.auth");
 Route::get('/admin/logout', [LoginController::class, 'logout'])->name("admin.logout")->middleware('auth');
 
+// Admin routes
+Route::get('/admin/posts', [AdminController::class, 'postManager'])->name('admin.posts')->middleware('auth');
+Route::get('/admin/comments', [AdminController::class, 'commentManager'])->name('admin.comments')->middleware('auth');
+
 // Categories routes
 Route::get('/categories/search', [CategoryController::class, 'search'])->name('categories.search');
 
 // Posts routes
-Route::resource('posts', PostController::class)->except(['show', 'edit'])->middleware('auth');
+Route::resource('posts', PostController::class)->except(['show', 'edit', 'showId'])->middleware('auth');
 Route::get('/posts/{slug}/edit', [PostController::class, 'edit'])->name('posts.edit')->middleware('auth');
 Route::get('/posts/{slug}', [PostController::class, 'show'])->name('posts.show');
+Route::get('/posts/{post_id}', [PostController::class, 'showId'])->name('posts.showId');
 
 // Comment routes
 Route::resource('comments', CommentController::class)->middleware('auth');
