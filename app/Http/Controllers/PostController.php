@@ -42,7 +42,7 @@ class PostController extends Controller
 
         $categoryController = new CategoryController;
         $categoryController->store($request->category, $post);
-        return redirect()->route('posts.index');
+        return redirect()->route('posts.show', $post->slug)->with("success", "Your post was created successfully!");
     }
 
     public function show($slug)
@@ -81,13 +81,13 @@ class PostController extends Controller
         $categoryController = new CategoryController;
         $categoryController->update($request->category, $post);
 
-        return redirect()->route('posts.show', $post->slug);
+        return redirect()->route('posts.show', $post->slug)->with('success', 'Your post was updated succesfully!');
     }
 
     public function destroy(Post $post)
     {
         $post->delete();
-        return redirect()->route('posts.index');
+        return redirect()->route('posts.index')->with('success', 'Your post was deleted successfully.');
     }
 
     public function createSlug($title)

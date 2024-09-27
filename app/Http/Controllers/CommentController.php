@@ -26,7 +26,8 @@ class CommentController extends Controller
         $comment->name = $request->name;
         $comment->email = $request->email;
         $comment->save();
-        return redirect()->route('posts.show', '$post->slug')->with('success', 'Comment added successfully!');
+        $post = $comment->post;
+        return redirect()->route('posts.show', $post->slug)->with('success', 'Your comment was sent to approval successfully.');
     }
 
     public function destroy(Comment $comment, Request $request)

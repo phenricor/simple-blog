@@ -29,9 +29,32 @@
         <form action="{{ route('posts.destroy', $post) }}" method='POST'>
             @csrf
             @method('DELETE')
-            <button type='submit' class="btn btn-danger">
+            
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete-modal">
                 <i class="fas fa-trash"></i>
             </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="delete-modal" tabindex="-1" aria-labelledby="delete-modalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="delete-modalLabel">Confirm Post Deletion</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Are you sure you want to delete this post?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
         </form>
     </div>
     @endif
@@ -42,7 +65,7 @@
     <div class="card px-4 py-4" id="add-comment-section">
         @if ($message = Session::get('error'))
         <div class="alert alert-danger alert-block">
-            <button     type="button" class="close" data-dismiss="alert">×</button>
+            <button type="button" class="close" data-dismiss="alert">×</button>
             <strong>{{ $message }}</strong>
         </div>
         @endif
@@ -78,39 +101,14 @@
             <button type="submit" class="mt-3 btn btn-outline-primary">Submit comment</button>
         </form>
     </div>
-<!-- Admins can see comments with any status. While guests only with status approved (id 1) -->
+    <!-- Admins can see comments with any status. While guests only with status approved (id 1) -->
     <div class="my-3">
         <p class="h4" id="comment-section" name="comment-section">Comments</p>
         @if(Auth::check())
         @if($comments->count() <= 0)
-        <p>No comments yet</p>
-        @else
-        @foreach ($comments as $comment)
-        <div class="container ps-0">
-            <div>
-                <span class="fw-bold">{{ $comment->name }}</span>
-                <span>({{ $comment->created_at }}):</span>
-                <div>
-                    <p class='{{ $comment->statusColor }}'>{{ $comment->statusString }}</p>
-                </div>
-            </div>
-            <p>{{ $comment->content }}</p>
-            <form action="{{ route('comments.destroy', $comment) }}" method='POST'>
-                @csrf
-                @method('DELETE')
-                <input type="hidden" id="post_id" name="post_id" value="{{ $post->id }}">
-                <button type='submit' class="btn btn-danger">
-                    <i class="fas fa-trash"></i>
-                </button>
-            </form>
-        </div>
-        @endforeach
-        @endif
-        @else
-        @if ($comments->where('status', 1)->count() <= 0)
-            <p>No comments yet<p>
-                @else
-                @foreach($comments->where('status',1)->get() as $comment)
+            <p>No comments yet</p>
+            @else
+            @foreach ($comments as $comment)
             <div class="container ps-0">
                 <div>
                     <span class="fw-bold">{{ $comment->name }}</span>
@@ -120,10 +118,35 @@
                     </div>
                 </div>
                 <p>{{ $comment->content }}</p>
+                <form action="{{ route('comments.destroy', $comment) }}" method='POST'>
+                    @csrf
+                    @method('DELETE')
+                    <input type="hidden" id="post_id" name="post_id" value="{{ $post->id }}">
+                    <button type='submit' class="btn btn-danger">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </form>
             </div>
             @endforeach
             @endif
-            @endif
+            @else
+            @if ($comments->where('status', 1)->count() <= 0)
+                <p>No comments yet<p>
+                    @else
+                    @foreach($comments->where('status',1)->get() as $comment)
+                <div class="container ps-0">
+                    <div>
+                        <span class="fw-bold">{{ $comment->name }}</span>
+                        <span>({{ $comment->created_at }}):</span>
+                        <div>
+                            <p class='{{ $comment->statusColor }}'>{{ $comment->statusString }}</p>
+                        </div>
+                    </div>
+                    <p>{{ $comment->content }}</p>
+                </div>
+                @endforeach
+                @endif
+                @endif
     </div>
 </div>
 @endsection
