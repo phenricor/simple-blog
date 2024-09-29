@@ -14,19 +14,6 @@
     color: #6c757d; 
 }
 
-/* Bootstrap buttons */
-
-.btn-outline-primary {
-    color: black; 
-    border-color: black; 
-}
-
-.btn-outline-primary:hover {
-    background-color: black; 
-    color: white; 
-    border-color: black;
-}
-
 /* Alert popup overlay */
 #overlay-alert {
         position: fixed;

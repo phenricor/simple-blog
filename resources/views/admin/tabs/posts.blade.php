@@ -22,7 +22,7 @@
             <td>{{ $post->updated_at }}</td>
             <td class="align-middle">
                 <a href="{{ route('posts.show', $post->slug) }}#comment-section">
-                    {{ $post->comments->count() }}
+                    {{ $post->countAllComments() }}
                 </a>
             </td>
             <td class="align-middle">

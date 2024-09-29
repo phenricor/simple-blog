@@ -22,10 +22,14 @@ class Post extends Model
     }
     public function countApprovedComments()
     {
-        return Comment::where([['post_id', $this->id], ['status', 1]])->count();
+        return Comment::where([['post_id', $this->id], ['status', 1], ['deleted_at', null]])->count();
     }
     public function countPendingComments()
     {
-        return Comment::where([['post_id', $this->id], ['status', 0]])->count();
+        return Comment::where([['post_id', $this->id], ['status', 0], ['deleted_at', null]])->count();
+    }
+    public function countAllComments()
+    {
+        return Comment::where([['post_id', $this->id], ['deleted_at', null]])->count();
     }
 }

@@ -31,7 +31,7 @@
             <td>{{ $comment->created_at }}</td>
             <td>{{ $comment->updated_at }}</td>
             <td id="status-{{$comment->id}}">
-                <p class="{{ $comment->statusColor() }}">{{ $comment->statusString() }}</p>
+                <p>{{ $comment->statusString() }}</p>
             </td>
             <td>
                 <div class="d-flex justify-content-between" style="gap:6px">

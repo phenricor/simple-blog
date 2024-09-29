@@ -8,8 +8,16 @@ use Illuminate\Http\Request;
 
 class CommentController extends Controller
 {
-    public function index(){
-        $comments = Comment::whereNull('deleted_at')->get();
+    /**
+     * @param bool $returnDeleted
+     */
+    public function index(bool $returnDeleted = false){
+        if($returnDeleted) {
+            $comments = Comment::all();
+        }
+        else {
+            $comments = Comment::whereNull('deleted_at')->get();
+        }
         return $comments;
     }
 

@@ -7,6 +7,7 @@ use App\Models\Post;
 use Illuminate\Http\Request;
 use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
+use App\Models\Comment;
 
 class PostController extends Controller
 {
@@ -50,10 +51,11 @@ class PostController extends Controller
     {
         $post = Post::where('slug', $slug)->firstOrFail();
 
-        $commentController = new CommentController;
-        $comments = $commentController->index()->where('post_id', $post->id)->sortByDesc("created_at");
-
-        return view('posts.show', compact('post', 'comments'));
+        $comments = $this->getPostComments($post);
+        $allComments = $comments->get();
+        $approvedComments = $comments->where('status', 1)->get();
+        
+        return view('posts.show', compact('post', 'allComments', 'approvedComments'));
     }
 
     public function showId($post_id)
@@ -115,5 +117,11 @@ class PostController extends Controller
         } else {
             return $slug = $slug;
         }
+    }
+
+    public function getPostComments(Post $post)
+    {
+        $comments = Comment::where([['post_id', $post->id], ['deleted_at', null]]);
+        return $comments;
     }
 }

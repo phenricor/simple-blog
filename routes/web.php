@@ -26,9 +26,11 @@ Route::get('/posts/{slug}/edit', [PostController::class, 'edit'])->name('posts.e
 Route::get('/posts/{slug}', [PostController::class, 'show'])->name('posts.show');
 Route::get('/posts/{post_id}', [PostController::class, 'showId'])->name('posts.showId');
 
-// Comment routes
-Route::resource('comments', CommentController::class)
-    ->middleware('auth')
-    ->except(['approveComment']);
+// Comments route
+
+Route::get('/comments', [CommentController::class, 'index'])->name('comments.index');
+Route::post('/comments', [CommentController::class, 'store'])->name('comments.store')->middleware('auth');
+Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy')->middleware('auth');
+
 
 Route::post('/approveComment', [CommentController::class, 'approveComment'])->name('comments.approveComments')->middleware('auth');
