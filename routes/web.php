@@ -29,7 +29,7 @@ Route::get('/posts/{post_id}', [PostController::class, 'showId'])->name('posts.s
 // Comments route
 
 Route::get('/comments', [CommentController::class, 'index'])->name('comments.index');
-Route::post('/comments', [CommentController::class, 'store'])->name('comments.store')->middleware('auth');
+Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
 Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy')->middleware('auth');
 
 
