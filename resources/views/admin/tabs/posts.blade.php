@@ -1,8 +1,3 @@
-@extends('layouts.app')
-@section('max-width', '900px')
-@section('title', 'Dashboard')
-
-@section('content')
 <table class="table table-striped">
     <thead>
         <tr>
@@ -16,7 +11,7 @@
     </thead>
     <tbody>
         @foreach ($posts as $post)
-        <tr >
+        <tr>
             <th class="align-middle" scope="row">{{ $post->id }}</th>
             <td class="align-middle">
                 <a style="color:black;" href="{{ route('posts.show', $post->slug) }}">
@@ -38,15 +33,11 @@
                         <input type="hidden" id="dashboard" name="dashboard" value="1">
 
                         <!-- Button trigger modal -->
-                        <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#delete-modal">
+                        <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deletePost-modal">
                             <i class="fas fa-trash"></i>
                         </button>
                         <!-- Modal component -->
-                        <x-modal>
-                            <x-slot:title>
-                                Confirm Post Deletion
-                            </x-slot:title>
-
+                        <x-modal id="deletePost" type="danger" title="Confirm Post Deletion">
                             Are you sure you want to delete this post?
                         </x-modal>
                     </form>
@@ -59,4 +50,3 @@
 <div class="my-xl-4 d-flex justify-content-center">
     {{ $posts->links("pagination::bootstrap-4") }}
 </div>
-@endsection

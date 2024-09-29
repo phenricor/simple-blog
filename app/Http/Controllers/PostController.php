@@ -100,7 +100,7 @@ class PostController extends Controller
     {
         $post->delete();
         if ($request->dashboard === "1") {
-            return redirect()->route('admin.posts')->with('success', 'Your post was deleted successfully.');
+            return redirect()->route('admin.dashboard')->with('success', 'Your post was deleted successfully.');
         }
         return redirect()->route('posts.index')->with('success', 'Your post was deleted successfully.');
     }

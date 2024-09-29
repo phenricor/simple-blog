@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class CommentController extends Controller
 {
     public function index(){
-        $comments = Comment::all();
+        $comments = Comment::whereNull('deleted_at')->get();
         return $comments;
     }
 
@@ -30,7 +30,16 @@ class CommentController extends Controller
         return redirect()->route('posts.show', $post->slug)->with('success', 'Your comment was sent to approval successfully.');
     }
 
-    public function destroy(Comment $comment, Request $request)
+    public function approveComment(Request $request)
+    {
+        $comment = Comment::find($request->id);
+        $comment->status = 1;
+        $comment->save();
+
+        return response()->json(['success' => true]); 
+    }
+
+    public function destroy(Comment $comment)
     {
         $comment->delete();
         return redirect()->back()->with('success', 'Comment deleted successfully!');

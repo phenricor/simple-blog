@@ -16,25 +16,47 @@ class Comment extends Model
 
     public function __construct()
     {
+
+    }
+
+    public function statusString()
+    {
         switch ($this->status) {
             case 0:
-                $this->statusColor = "badge rounded-pill bg-warning text-dark";
                 $this->statusString = "Pending";
                 break;
             case 1:
-                $this->statusColor = "badge rounded-pill bg-success";
                 $this->statusString = "Approved";
                 break;
             case 2:
-                $this->statusColor = "badge rounded-pill bg-danger";
                 $this->statusString = "Reproved";
                 break;
             default:
-                $this->statusColor = "badge rounded-pill bg-secondary";
                 $this->statusString = "Unknown";
                 break;
         }
+        return $this->statusString;
     }
+
+    public function statusColor()
+    {
+        switch ($this->status) {
+            case 0:
+                $this->statusColor = "badge rounded-pill bg-warning text-dark";
+                break;
+            case 1:
+                $this->statusColor = "badge rounded-pill bg-success";
+                break;
+            case 2:
+                $this->statusColor = "badge rounded-pill bg-danger";
+                break;
+            default:
+                $this->statusColor = "badge rounded-pill bg-secondary";
+                break;
+        }
+        return $this->statusColor;
+    }
+
 
     public function post()
     {

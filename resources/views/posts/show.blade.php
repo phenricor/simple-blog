@@ -36,11 +36,7 @@
             </button>
 
             <!-- Modal component -->
-            <x-modal>
-                <x-slot:title>
-                    Confirm Post Deletion
-                </x-slot:title>
-
+            <x-modal id="delete" type="danger" title="Confirm Post Deletion">
                 Are you sure you want to delete this post?
             </x-modal>
 
@@ -112,15 +108,11 @@
                     @method('DELETE')
                     <input type="hidden" id="post_id" name="post_id" value="{{ $post->id }}">
                     <!-- Button trigger modal -->
-                    <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#delete-modal">
+                    <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#postDelete-modal">
                         <i class="fas fa-trash"></i>
                     </button>
                     <!-- Modal component -->
-                    <x-modal>
-                        <x-slot:title>
-                            Confirm Comment Deletion
-                        </x-slot:title>
-
+                    <x-modal id="postDelete" type="danger" title="Confirm Comment Deletion">
                         Are you sure you want to delete this comment?
                     </x-modal>
 
@@ -138,7 +130,7 @@
                         <span class="fw-bold">{{ $comment->name }}</span>
                         <span>({{ $comment->created_at }}):</span>
                         <div>
-                            <p class='{{ $comment->statusColor }}'>{{ $comment->statusString }}</p>
+                            <p class='{{ $comment->statusColor() }}'>{{ $comment->statusString() }}</p>
                         </div>
                     </div>
                     <p>{{ $comment->content }}</p>

@@ -8,13 +8,9 @@ use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
-    public function postManager() {
+    public function dashboard() {
         $posts = Post::orderby("created_at", "desc")->paginate(15);
-        return view('admin.posts', compact('posts'));
-    }
-
-    public function commentManager() {
-        $comments = Comment::orderby("created_at", "desc")->paginate(20);
-        return view('admin.comments', compact('comments'));
+        $comments = Comment::orderby("created_at", "desc")->whereNull('deleted_at')->paginate(20);
+        return view('admin.dashboard', compact('posts', 'comments'));
     }
 }

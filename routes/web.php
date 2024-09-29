@@ -15,8 +15,7 @@ Route::post('/admin/login', [LoginController::class, 'auth'])->name("admin.auth"
 Route::get('/admin/logout', [LoginController::class, 'logout'])->name("admin.logout")->middleware('auth');
 
 // Admin routes
-Route::get('/admin/posts', [AdminController::class, 'postManager'])->name('admin.posts')->middleware('auth');
-Route::get('/admin/comments', [AdminController::class, 'commentManager'])->name('admin.comments')->middleware('auth');
+Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard')->middleware('auth');
 
 // Categories routes
 Route::get('/categories/search', [CategoryController::class, 'search'])->name('categories.search');
@@ -28,4 +27,8 @@ Route::get('/posts/{slug}', [PostController::class, 'show'])->name('posts.show')
 Route::get('/posts/{post_id}', [PostController::class, 'showId'])->name('posts.showId');
 
 // Comment routes
-Route::resource('comments', CommentController::class)->middleware('auth');
+Route::resource('comments', CommentController::class)
+    ->middleware('auth')
+    ->except(['approveComment']);
+
+Route::post('/approveComment', [CommentController::class, 'approveComment'])->name('comments.approveComments')->middleware('auth');

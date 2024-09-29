@@ -1,8 +1,3 @@
-@extends('layouts.app')
-@section('max-width', '1000px')
-@section('title', 'Dashboard')
-
-@section('content')
 <table class="table table-striped">
     <thead>
         <tr>
@@ -25,37 +20,39 @@
             <td>{{ $comment->name }}</td>
             <td>{{ $comment->content }}</td>
             <td>
+                @if ($comment->post)
                 <a href="{{ route('posts.show', $comment->post->slug) }}">
                     {{ $comment->post->title }}
                 </a>
+                @else
+                <a>Missing</a>
+                @endif
             </td>
             <td>{{ $comment->created_at }}</td>
             <td>{{ $comment->updated_at }}</td>
-            <td>{{ $comment->status }}</td>
+            <td id="status-{{$comment->id}}">
+                <p class="{{ $comment->statusColor() }}">{{ $comment->statusString() }}</p>
+            </td>
             <td>
                 <div class="d-flex justify-content-between" style="gap:6px">
                     <!-- To do approve comment -->
+                     @if ($comment->post !== null && $comment->status === 0)
                     <span id="approve-button">
-                        <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#delete-modal">
+                        <button class="btn btn-success btn-sm" onclick="updateField( {{ $comment->id }} )" type="button">
                             <i class="fa-solid fa-thumbs-up"></i>
                         </button>
                     </span>
+                    @endif
                     <span id="delete-button">
                         <form action="{{ route('comments.destroy', $comment) }}" method='POST'>
                             @csrf
                             @method('DELETE')
-                            <input type="hidden" id="dashboard" name="dashboard" value="1">
-
                             <!-- Button trigger modal -->
-                            <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#delete-modal">
+                            <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteComment-modal">
                                 <i class="fas fa-trash"></i>
                             </button>
                             <!-- Modal component -->
-                            <x-modal>
-                                <x-slot:title>
-                                    Confirm Comment Deletion
-                                </x-slot:title>
-
+                            <x-modal id="deleteComment" type="danger" title="Confirm Comment Deletion">
                                 Are you sure you want to delete this comment?
                             </x-modal>
                         </form>
@@ -69,4 +66,27 @@
 <div class="my-xl-4 d-flex justify-content-center">
     {{ $comments->links("pagination::bootstrap-4") }}
 </div>
-@endsection
+<script>
+    function updateField(id) {
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", "../approveComment", true);
+    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhr.setRequestHeader("X-CSRF-TOKEN", document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
+
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            console.log("Field updated successfully");
+
+            const response = JSON.parse(xhr.responseText);
+
+            if (response.success) {
+                document.getElementById('status-' + id).innerText = "Approved";
+            }
+        }
+    };
+
+    xhr.send(JSON.stringify({
+        id: id,
+    }));
+}
+</script>
