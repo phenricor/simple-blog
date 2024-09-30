@@ -31,6 +31,9 @@ Route::get('/posts/{post_id}', [PostController::class, 'showId'])->name('posts.s
 Route::get('/comments', [CommentController::class, 'index'])->name('comments.index');
 Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
 Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy')->middleware('auth');
-
-
-Route::post('/approveComment', [CommentController::class, 'approveComment'])->name('comments.approveComments')->middleware('auth');
+Route::post('/comments/{id}/approve', [CommentController::class, 'approveComment'])
+    ->name('comments.approveComments')
+    ->middleware('auth');
+Route::post('/comments/{id}/disapprove', [CommentController::class, 'disapproveComment'])
+    ->name('comments.disapproveComments')
+    ->middleware('auth');

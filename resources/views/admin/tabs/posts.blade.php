@@ -18,8 +18,8 @@
                     {{ $post->title }}
                 </a>
             </td>
-            <td>{{ $post->created_at }}</td>
-            <td>{{ $post->updated_at }}</td>
+            <td>{{ date_format($post->created_at, "Y/m/d H:i:s") }}</td>
+            <td>{{ date_format($post->updated_at, "Y/m/d H:i:s") }}</td>
             <td class="align-middle">
                 <a href="{{ route('posts.show', $post->slug) }}#comment-section">
                     {{ $post->countAllComments() }}

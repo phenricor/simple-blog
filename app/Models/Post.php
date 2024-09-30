@@ -30,6 +30,6 @@ class Post extends Model
     }
     public function countAllComments()
     {
-        return Comment::where([['post_id', $this->id], ['deleted_at', null]])->count();
+        return Comment::where([['post_id', $this->id], ['deleted_at', null], ['status', '<>', 2]])->count();
     }
 }

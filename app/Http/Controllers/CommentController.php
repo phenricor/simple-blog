@@ -38,13 +38,22 @@ class CommentController extends Controller
         return redirect()->route('posts.show', $post->slug)->with('success', 'Your comment was sent to approval successfully.');
     }
 
-    public function approveComment(Request $request)
+    public function approveComment($request)
     {
-        $comment = Comment::find($request->id);
+        $comment = Comment::find($request);
         $comment->status = 1;
         $comment->save();
 
         return response()->json(['success' => true]); 
+    }
+
+    public function disapproveComment($request)
+    {
+        $comment = Comment::find($request);
+        $comment->status = 2;
+        $comment->save();
+
+        return response()->json(['success' => true]);
     }
 
     public function destroy(Comment $comment)

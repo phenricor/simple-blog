@@ -52,9 +52,14 @@ class PostController extends Controller
         $post = Post::where('slug', $slug)->firstOrFail();
 
         $comments = $this->getPostComments($post);
-        $allComments = $comments->get();
+        $allComments = $comments->where(function ($query) {
+            $query->where('status', 0)
+                ->orWhere('status', 1)
+                ->orWhere('status', 3);
+        })
+            ->get();
         $approvedComments = $comments->where('status', 1)->get();
-        
+
         return view('posts.show', compact('post', 'allComments', 'approvedComments'));
     }
 
@@ -102,7 +107,7 @@ class PostController extends Controller
     {
         $post->delete();
         if ($request->dashboard === "1") {
-            return redirect()->route('admin.dashboard')->with('success', 'Your post was deleted successfully.');
+            return redirect()->back()->with('success', 'Your post was deleted successfully.');
         }
         return redirect()->route('posts.index')->with('success', 'Your post was deleted successfully.');
     }
