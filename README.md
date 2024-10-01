@@ -1,13 +1,20 @@
 <img src="https://i.imgur.com/Ji4Xtmw.png"></img>
 This is a personal project using Laravel. The application is a simple blog for basic usage, such as posting and commenting.
 # Features
-- Blog posting and management (CRUD)
-- Pagination
-- Rich text editor
-- Image uploading
-- Comment section
-- Categories
-- Admin features
+- [x] Blog posting and management (CRUD)
+- [x] Pagination
+- [x] Rich text editor
+- [x] Image uploading
+- [x] Comment section
+- [x] Categories
+- [x] Admin features
+- [x] Custom navbar pages
+- [ ] RSS Feed
+- [ ] Schedule post
+- [ ] Pinned post
+- [ ] Search system
+- [ ] Layout customization
+- [ ] Reactions to posts
 # Requirements
 1. PHP >= 8.0
 2. Composer

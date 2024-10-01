@@ -6,6 +6,7 @@ use App\Http\Controllers\CommentController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\PageController;
 
 Route::get('/', [PostController::class, 'index']);
 
@@ -37,3 +38,11 @@ Route::post('/comments/{id}/approve', [CommentController::class, 'approveComment
 Route::post('/comments/{id}/disapprove', [CommentController::class, 'disapproveComment'])
     ->name('comments.disapproveComments')
     ->middleware('auth');
+
+// Pages routes
+
+Route::get('/{slug}', [PageController::class, 'show'])->name('pages.show');
+Route::get('/{page}/edit', [PageController::class, 'edit'])->name('pages.edit')->middleware('auth');
+Route::post('/{page}/update', [PageController::class, 'update'])->name('pages.update');
+Route::post('/store', [PageController::class, 'store'])->name('pages.store');
+Route::delete('/{page}/destroy', [PageController::class, 'destroy'])->name('pages.destroy')->middleware('auth');

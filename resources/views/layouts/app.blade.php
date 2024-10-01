@@ -40,15 +40,20 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/">Home</a>
                     </li>
+                    @foreach($pages as $page)
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('pages.show', $page->slug) }}">{{ $page->title }}</a>
+                    </li>
+                    @endforeach
                     @if (Auth::check())
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('posts.create') }}">New Post</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('admin.dashboard') }}">Dashboard</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('admin.logout') }}">logout</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Admin</a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{{ route('posts.create') }}#">New Post</a>
+                            <a class="dropdown-item" href="{{ route('admin.dashboard') }}#">Dashboard</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{{ route('admin.logout') }}">Logout</a>
+                        </div>
                     </li>
                     @endif
                 </ul>
@@ -59,7 +64,7 @@
 
     <!-- Main Content -->
     <main class="container" style="max-width: @yield('max-width', '700px')">
-        
+
         <!-- Alert component -->
         <x-alert></x-alert>
 
