@@ -54,21 +54,28 @@
                     <span style="font-size:10px">{{ $comment->created_at }} </span>
                     <span class="{{ $comment->statusColor() }}">{{ $comment->statusString() }}</span>
                 </div>
-                <div class="card-body">
-                    <p>{{ $comment->content}}</p>
-                    <form action="{{ route('comments.destroy', $comment) }}" method='POST'>
-                        @csrf
-                        @method('DELETE')
-                        <input type="hidden" id="post_id" name="post_id" value="{{ $post->id }}">
-                        <!-- Button trigger modal -->
-                        <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#postDelete-modal">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                        <!-- Modal component -->
-                        <x-modal id="postDelete" type="danger" title="Confirm Comment Deletion">
-                            Are you sure you want to delete this comment?
-                        </x-modal>
-                    </form>
+                <div class="container card-body">
+                    <div class="row">
+                        <div class="col d-flex align-items-top">
+                            <img src="{{ asset('avatar.jpg') }}" style="border-radius:50px; width:25px; height:25px">
+                        </div>
+                        <div class="col-11 ps-1">
+                            <p>{{ $comment->content}}</p>
+                            <form action="{{ route('comments.destroy', $comment) }}" method='POST'>
+                                @csrf
+                                @method('DELETE')
+                                <input type="hidden" id="post_id" name="post_id" value="{{ $post->id }}">
+                                <!-- Button trigger modal -->
+                                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#postDelete-modal">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                                <!-- Modal component -->
+                                <x-modal id="postDelete" type="danger" title="Confirm Comment Deletion">
+                                    Are you sure you want to delete this comment?
+                                </x-modal>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
             @endforeach
@@ -83,8 +90,15 @@
                         <span class="fw-bold">{{ $approvedComment->name }}</span>
                         <span style="font-size:10px">{{ $approvedComment->created_at }} </span>
                     </div>
-                    <div class="card-body">
-                        <p>{{ $approvedComment->content}}</p>
+                    <div class="container card-body">
+                        <div class="row">
+                            <div class="col d-flex align-items-top">
+                                <img src="{{ asset('avatar.jpg') }}" style="border-radius:50px; width:25px; height:25px">
+                            </div>
+                            <div class="col-11 ps-1">
+                                <p>{{ $approvedComment->content}}</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 @endforeach
