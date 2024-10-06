@@ -40,6 +40,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/">Home</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/categories">Categories</a>
+                    </li>
                     @foreach($pages as $page)
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('pages.show', $page->slug) }}">{{ $page->title }}</a>

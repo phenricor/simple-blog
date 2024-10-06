@@ -38,7 +38,7 @@
                 <i class="fa-solid fa-tag"></i>
             </span>
             @foreach ($post->categories as $category)
-            <a href="/categories/search?id={{$category->id}}" class="badge bg-dark" style="border-radius:0; text-decoration:none">{{ $category->name }}</a>
+            <a href="/categories/search?id={{$category->id}}" class="badge bg-dark me-2" style="border-radius:0; text-decoration:none">{{ $category->name }}</a>
             @endforeach
         </div>
         @endif

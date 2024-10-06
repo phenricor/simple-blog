@@ -20,6 +20,7 @@ Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('adm
 
 // Categories routes
 Route::get('/categories/search', [CategoryController::class, 'search'])->name('categories.search');
+Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
 
 // Posts routes
 Route::resource('posts', PostController::class)->except(['show', 'edit', 'showId'])->middleware('auth');
