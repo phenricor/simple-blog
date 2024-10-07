@@ -29,6 +29,8 @@ Route::get('/posts/{slug}/edit', [PostController::class, 'edit'])->name('posts.e
 Route::get('/posts/{slug}', [PostController::class, 'show'])->name('posts.show');
 Route::get('/posts/{post_id}', [PostController::class, 'showId'])->name('posts.showId');
 
+Route::feeds();
+
 // Comments route
 
 Route::get('/comments', [CommentController::class, 'index'])->name('comments.index');

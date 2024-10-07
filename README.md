@@ -10,7 +10,7 @@ This is a personal project using Laravel. The application is a simple blog for b
 - [x] Admin features
 - [x] Custom navbar pages
 - [x] Customizable social media icons (github, linkedin, telegram etc.)
-- [ ] RSS Feed
+- [x] RSS Feed
 - [ ] Schedule post
 - [ ] Pinned post
 - [ ] Search system
@@ -42,6 +42,7 @@ cp .env.example .env
 ADMIN_USERNAME="admin"
 ADMIN_PASSWORD="00000"
 ```
+It is not recommended to keep original credentials, please change it to something safer.
 4. Run migrations and seed the database:
 ```
 php artisan migrate --seed
@@ -50,8 +51,13 @@ php artisan migrate --seed
 ```
 php artisan serve
 ```
+## Adittional steps
+- **Feed**: On config/feed.php, you can change `title` and `description` values, that will reflect on the blog's RSS properties.
+- 
+
 Access http://localhost:8000 to use the application.
 # What is being used
 1. Bootstrap
 2. Laravel
 3. Quill
+4. spatie/laravel-feed
