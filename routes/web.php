@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\SettingController;
 
 Route::get('/', [PostController::class, 'index']);
 
@@ -47,3 +48,7 @@ Route::get('/{page}/edit', [PageController::class, 'edit'])->name('pages.edit')-
 Route::post('/{page}/update', [PageController::class, 'update'])->name('pages.update');
 Route::post('/store', [PageController::class, 'store'])->name('pages.store');
 Route::delete('/{page}/destroy', [PageController::class, 'destroy'])->name('pages.destroy')->middleware('auth');
+
+// Settings routes
+
+Route::post('/setting/{key}/update', [SettingController::class, 'update'])->name('settings.update')->middleware('auth');

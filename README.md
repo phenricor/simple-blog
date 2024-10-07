@@ -9,6 +9,7 @@ This is a personal project using Laravel. The application is a simple blog for b
 - [x] Categories
 - [x] Admin features
 - [x] Custom navbar pages
+- [x] Customizable social media icons (github, linkedin, telegram etc.)
 - [ ] RSS Feed
 - [ ] Schedule post
 - [ ] Pinned post
