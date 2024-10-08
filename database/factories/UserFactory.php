@@ -25,8 +25,6 @@ class UserFactory extends Factory
     {
         return [
             'name' => env("ADMIN_USERNAME"),
-            'email' => fake()->unique()->safeEmail(),
-            'email_verified_at' => now(),
             'password' => Hash::make(env("ADMIN_PASSWORD")),
             'remember_token' => Str::random(10),
         ];

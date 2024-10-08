@@ -37,17 +37,22 @@ composer install
 ```
 cp .env.example .env
 ```
-4. Change the admin credentials on .env:
+4. Insert the admin credentials on .env:
 ```
-ADMIN_USERNAME="admin"
-ADMIN_PASSWORD="00000"
+ADMIN_USERNAME=
+ADMIN_PASSWORD=
 ```
-It is not recommended to keep original credentials, please change it to something safer.
-4. Run migrations and seed the database:
+These credentials are going to be used for authentication, so it is recommended to use a strong password.
+
+5. Generate your encryption keys
+```
+php artisan key:generate
+```
+6. Run migrations and seed the database:
 ```
 php artisan migrate --seed
 ```
-5. Start the server:
+7. Start the server:
 ```
 php artisan serve
 ```
