@@ -48,6 +48,11 @@ These credentials are going to be used for authentication, so it is recommended 
 ```
 php artisan key:generate
 ```
+If error, go to /app/Providers/AppServiceProvider.php, and comment everything in boot():
+```
+#view()->share('pages', Post::where('page', 1)->get());
+#view()->share('settings', Setting::all());
+```
 6. Run migrations and seed the database:
 ```
 php artisan migrate --seed
