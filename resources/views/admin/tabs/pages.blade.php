@@ -22,7 +22,7 @@
         @foreach ($pages as $page)
             <tr>
                 <th>
-                    <a href="/pages/{{$page->slug}}">
+                    <a href="/{{$page->slug}}">
                     {{ $page->title }}
                     </a>
                 </th>
