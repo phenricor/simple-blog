@@ -28,7 +28,8 @@ class PostController extends Controller
             'title' => 'required',
             'description' => 'required',
             'image' => 'nullable|file|mimes:jpg,jpeg,png,gif,pdf|max:2048',
-            'category' => 'nullable'
+            'category' => 'nullable',
+            'scheduled_to' => 'nullable'
         ]);
         $post = new Post();
         $post->title = $request->title;
@@ -39,6 +40,13 @@ class PostController extends Controller
             $fileName = $slug . '-' . time() . '.' . $request->image->extension();
             $filePath = $request->file('image')->storeAs('posts', $fileName, 'public');
             $post->image = $filePath;
+        }
+        if ($request->scheduled_to !== null) {
+            $post->scheduled_to = $request->scheduled_to;
+            $post->published = false;
+        }
+        else {
+            $post->published = true;
         }
         $post->save();
 

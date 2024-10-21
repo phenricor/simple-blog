@@ -33,6 +33,14 @@
             <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" id="category" name="category">
         </div>
         <p style="font-size:10px">Separate categories using comma (,).</p>
+        <div class="mt-3 mb-2">
+            <input type="checkbox" id="schedule-check" name="schedule-check">
+            <label for="schedule-check">Schedule post</label>
+        </div>
+        <div id="schedule-section" class="my-3" style="display:none">
+            <label for="schedule-to">Schedule for</label>
+            <input type="text" class="form_control" id="schedule-to" name="scheduled_to">
+        </div>
         <div>
             <button type="submit" class="btn btn-success">Submit</button>
             <a class="btn btn-secondary" href="{{ route('posts.index') }}">Cancel</a>
@@ -46,6 +54,15 @@
     });
     document.querySelector('form').addEventListener('submit', function() {
         document.querySelector('#description').value = quill.root.innerHTML;
+    });
+
+    $("#schedule-check").change(function() {
+        $("#schedule-section").toggle();
+    })
+
+    $("#schedule-to").flatpickr({
+        enableTime: true,
+        dateFormat: "Y-m-d H:i",
     });
 </script>
 @endsection

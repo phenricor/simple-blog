@@ -2,12 +2,12 @@
 @section('title', 'Laravel Blog Project')
 
 @section('content')
+<p class="h1 fw-bold mb-3">Articles</p>
 @if($posts->count() <= 0)
     <div>
     <h2>No posts available.</h2>
     </div>
     @else
-    <p class="h1 fw-bold">Articles</p>
     @foreach ($posts as $post)
     <div class="card px-md-4 pt-md-4 my-md-2">
         <a style="text-decoration: none" href="{{ route('posts.show', $post->slug) }}">
