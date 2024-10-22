@@ -6,6 +6,8 @@
             <th scope="col">Created At</th>
             <th scope="col">Updated At</th>
             <th scope="col">Comments</th>
+            <th scope="col">Scheduled To</th>
+            <th scope="col">Publish Status</th>
             <th scope="col">Actions</th>
         </tr>
     </thead>
@@ -25,6 +27,8 @@
                     {{ $post->countAllComments() }}
                 </a>
             </td>
+            <td>{{ $post->scheduled_to }}</td>
+            <td>{{ $post->published }}</td>
             <td class="align-middle">
                 <span id="delete-button">
                     <form action="{{ route('posts.destroy', $post) }}" method='POST'>

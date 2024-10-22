@@ -8,13 +8,15 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 use App\Models\Comment;
+use Carbon\Carbon;
 
 class PostController extends Controller
 {
     public function index()
     {
-        $posts = Post::orderby("created_at", "desc")->where('page', '<>', true)->paginate(5);
-        return view('posts.index', compact('posts'));
+        $allPosts = Post::orderby("created_at", "desc")->where('page', '<>', true)->paginate(5);
+        $onlyPublishedPosts = Post::orderby("created_at", "desc")->where('page', '<>', true)->where('published',true)->paginate(5);
+        return view('posts.index', compact('allPosts', 'onlyPublishedPosts'));
     }
 
     public function create()
@@ -42,7 +44,8 @@ class PostController extends Controller
             $post->image = $filePath;
         }
         if ($request->scheduled_to !== null) {
-            $post->scheduled_to = $request->scheduled_to;
+            $timestamp = Carbon::createFromFormat('Y-m-d H:i', $request->scheduled_to)->toDateTime();
+            $post->scheduled_to = $timestamp;
             $post->published = false;
         }
         else {

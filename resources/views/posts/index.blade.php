@@ -3,12 +3,12 @@
 
 @section('content')
 <p class="h1 fw-bold mb-3">Articles</p>
-@if($posts->count() <= 0)
+@if ($onlyPublishedPosts->count() <= 0)
     <div>
     <h2>No posts available.</h2>
     </div>
     @else
-    @foreach ($posts as $post)
+    @foreach ($onlyPublishedPosts as $post)
     <div class="card px-md-4 pt-md-4 my-md-2">
         <a style="text-decoration: none" href="{{ route('posts.show', $post->slug) }}">
             <p class="h2 text-dark font-weight-bold">{{ Str::limit($post->title, 100) }}</p>
@@ -54,6 +54,6 @@
     @endforeach
     @endif
     <div class="my-xl-4 d-flex justify-content-center">
-        {{ $posts->links("pagination::bootstrap-4") }}
+        {{ $onlyPublishedPosts->links("pagination::bootstrap-4") }}
     </div>
     @endsection
