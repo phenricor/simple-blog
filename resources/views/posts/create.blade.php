@@ -30,16 +30,17 @@
             <div class="input-group-prepend">
                 <span class="input-group-text" id="inputGroup-sizing-default">Categories</span>
             </div>
-            <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" id="category" name="category">
+            <input type="text" class="form-control" id="category" name="category">
         </div>
         <p style="font-size:10px">Separate categories using comma (,).</p>
         <div class="mt-3 mb-2">
-            <input type="checkbox" id="schedule-check" name="schedule-check">
+            <input type="checkbox" id="schedule-check" name="schedule_check" value="true">
             <label for="schedule-check">Schedule post</label>
         </div>
         <div id="schedule-section" class="my-3" style="display:none">
             <label for="schedule-to">Schedule for</label>
             <input type="text" class="form_control" id="schedule-to" name="scheduled_to">
+            <input type="hidden" id="timezone" name="timezone" value="">
         </div>
         <div>
             <button type="submit" class="btn btn-success">Submit</button>
@@ -63,6 +64,11 @@
     $("#schedule-to").flatpickr({
         enableTime: true,
         dateFormat: "Y-m-d H:i",
+        minDate: "today",
     });
+
+    $("#timezone").attr("value", function() {
+        return Intl.DateTimeFormat().resolvedOptions().timeZone
+    })
 </script>
 @endsection
