@@ -28,7 +28,8 @@ class PostController extends Controller
     {
         # Handles schedule date input based on user server timezone
         if ($request->schedule_check == "true" && $request->scheduled_to !== null) {
-            $timezoneDate = Carbon::createFromFormat('Y-m-d H:i', $request->scheduled_to, $request->timezone)->setTimezone('UTC');
+            $inputScheduledDate = Carbon::createFromFormat('Y-m-d H:i', $request->scheduled_to, $request->timezone);
+            $timezoneDate = $inputScheduledDate->setTimezone('UTC');
             $validator = Validator::make(['scheduled_to'=>$timezoneDate->toDateTimeString()], [
                 'scheduled_to' => 'nullable|date|after:now'
             ]);
@@ -56,7 +57,7 @@ class PostController extends Controller
         if ($request->schedule_check == "true" && $request->scheduled_to !== null) {
             $post->scheduled_to = $timezoneDate->toDateTime();
             $post->published = false;
-            $message = "Your post was scheduled succesfully to " . $timezoneDate->toDateTimeString();
+            $message = "Your post was scheduled succesfully to " . $inputScheduledDate->setTimezone("$request->timezone")->toDateTimeString();
         }
         else {
             $post->published = true;
@@ -153,5 +154,13 @@ class PostController extends Controller
     {
         $comments = Comment::where([['post_id', $post->id], ['deleted_at', null]]);
         return $comments;
+    }
+
+    public function setPublishedTrue($id)
+    {
+        $post = Post::where('id', $id)->firstOrFail();
+        $post->published = 1;
+        $post->update();
+        return response()->json(['success', 'true']);
     }
 }

@@ -8,35 +8,30 @@ use App\Models\Comment;
 class AdminController extends Controller
 {
     public function dashboard() {
-        $posts = $this->posts();
-        $pages = $this->pages();
-        $comments = $this->comments();
-        $settings = $this->settings();
-        return view('admin.dashboard', compact('posts', 'comments', 'pages', 'settings'));
+        return view('admin.dashboard');
     }
 
-    public function comments()
+    public function loadPosts() {
+        $posts = Post::orderby("created_at", "desc")->where('page', '<>', true)->paginate(15);
+        return view('admin.tabs.posts', compact('posts'));
+    }
+
+    public function loadComments()
     {
         $comments = Comment::orderby("created_at", "desc")->whereNull('deleted_at')->paginate(20);
-        return $comments;
+        return view('admin.tabs.comments', compact('comments'));
     }
 
-    public function posts()
-    {
-        $posts = Post::orderby("created_at", "desc")->where('page', '<>', true)->paginate(15);
-        return $posts;
-    }
-
-    public function pages()
+    public function loadPages()
     {
         $pages = Post::orderby("created_at", "desc")->where('page', true)->get();
-        return $pages;
+        return view('admin.tabs.pages', compact('pages'));
     }
 
-    public function settings()
+    public function loadSettings()
     {
         $settings = new SettingController;
         $settings = $settings->index();
-        return $settings;
+        return view('admin.tabs.settings', compact('settings'));
     }
 }

@@ -18,6 +18,10 @@ Route::get('/admin/logout', [LoginController::class, 'logout'])->name("admin.log
 
 // Admin routes
 Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard')->middleware('auth');
+Route::get('/admin/posts', [AdminController::class, 'loadPosts'])->name('admin.posts');
+Route::get('/admin/comments', [AdminController::class, 'loadComments'])->name('admin.comments');
+Route::get('/admin/pages', [AdminController::class, 'loadPages'])->name('admin.pages');
+Route::get('/admin/settings', [AdminController::class, 'loadSettings'])->name('admin.settings');
 
 // Categories routes
 Route::get('/categories/search', [CategoryController::class, 'search'])->name('categories.search');
@@ -28,6 +32,7 @@ Route::resource('posts', PostController::class)->except(['show', 'edit', 'showId
 Route::get('/posts/{slug}/edit', [PostController::class, 'edit'])->name('posts.edit')->middleware('auth');
 Route::get('/posts/{slug}', [PostController::class, 'show'])->name('posts.show');
 Route::get('/posts/{post_id}', [PostController::class, 'showId'])->name('posts.showId');
+Route::post('/posts/{id}/setPublishedTrue', [PostController::class, 'setPublishedTrue'])->name('posts.setPublishedTrue');
 
 Route::feeds();
 

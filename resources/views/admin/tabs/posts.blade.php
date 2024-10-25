@@ -13,7 +13,7 @@
     </thead>
     <tbody>
         @foreach ($posts as $post)
-        <tr>
+        <tr id="post-{{ $post->id }}">
             <th class="align-middle" scope="row">{{ $post->id }}</th>
             <td class="align-middle">
                 <a style="color:black;" href="{{ route('posts.show', $post->slug) }}">
@@ -46,9 +46,9 @@
                         </x-modal>
                     </form>
                 </span>
-                @if ($post->scheduled_to !== null)
+                @if ($post->published == 0)
                 <span>
-                    <button type="button" class="btn btn-warning btn-sm" id="fastfoward" data-bs-toggle="modal" data-bs-target="#confirmFastFoward-modal">
+                    <button type="button" class="btn btn-warning btn-sm" id="fastfoward" data-bs-toggle="modal" data-bs-target="#confirmFastFoward-modal" onclick="updatePublished({{ $post->id }})">
                         <i style="color:white" class="fas fa-plane"></i>
                     </button>
                         <!-- Modal component -->
@@ -67,4 +67,18 @@
 </div>
 <script>
     // TO DO: AJAX CALL TO UPDATE PUBLISHED STTATUS WHEN CLICK FAST FOWARD BUTTON
+function updatePublished(id) {
+    $("#btn-submit-confirmFastFoward").click(function() {
+        fetch(`/posts/${id}/setPublishedTrue`, {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            }
+        })
+        .then(response => response.json())
+        .then(function () {
+            loadView()
+        });
+    });
+}
 </script>
