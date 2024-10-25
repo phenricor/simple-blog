@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Comment;
-use App\Models\Post;
 use Illuminate\Http\Request;
 
 class CommentController extends Controller
@@ -44,7 +43,7 @@ class CommentController extends Controller
         $comment->status = 1;
         $comment->save();
 
-        return response()->json(['success' => true]); 
+        return response()->json(['success' => true]);
     }
 
     public function disapproveComment($request)

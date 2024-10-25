@@ -13,7 +13,7 @@ class Post extends Model implements Feedable
 {
     use HasFactory;
     use SoftDeletes;
-    protected $fillable = ['title', 'description', 'image', 'slug'];
+    protected $fillable = ['title', 'description', 'image', 'slug', 'scheduled_to'];
     public function comments()
     {
         return $this->hasMany(Comment::class);

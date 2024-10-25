@@ -6,15 +6,17 @@ use Illuminate\Support\Str;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use App\Http\Controllers\CategoryController;
-use Illuminate\Support\Facades\Route;
 use App\Models\Comment;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Validator;
 
 class PostController extends Controller
 {
     public function index()
     {
-        $posts = Post::orderby("created_at", "desc")->where('page', '<>', true)->paginate(5);
-        return view('posts.index', compact('posts'));
+        $allPosts = Post::orderby("created_at", "desc")->where('page', '<>', true)->paginate(5);
+        $onlyPublishedPosts = Post::orderby("created_at", "desc")->where('page', '<>', true)->where('published',true)->paginate(5);
+        return view('posts.index', compact('allPosts', 'onlyPublishedPosts'));
     }
 
     public function create()
@@ -24,6 +26,18 @@ class PostController extends Controller
 
     public function store(Request $request)
     {
+        # Handles schedule date input based on user server timezone
+        if ($request->schedule_check == "true" && $request->scheduled_to !== null) {
+            $inputScheduledDate = Carbon::createFromFormat('Y-m-d H:i', $request->scheduled_to, $request->timezone);
+            $timezoneDate = $inputScheduledDate->setTimezone('UTC');
+            $validator = Validator::make(['scheduled_to'=>$timezoneDate->toDateTimeString()], [
+                'scheduled_to' => 'nullable|date|after:now'
+            ]);
+           if ($validator->fails()) {
+                return redirect()->back()->withErrors($validator);
+            }
+        }
+
         $request->validate([
             'title' => 'required',
             'description' => 'required',
@@ -40,11 +54,23 @@ class PostController extends Controller
             $filePath = $request->file('image')->storeAs('posts', $fileName, 'public');
             $post->image = $filePath;
         }
+        if ($request->schedule_check == "true" && $request->scheduled_to !== null) {
+            $post->scheduled_to = $timezoneDate->toDateTime();
+            $post->published = false;
+            $message = "Your post was scheduled succesfully to " . $inputScheduledDate->setTimezone("$request->timezone")->toDateTimeString();
+        }
+        else {
+            $post->published = true;
+            $message = "Your post was created succesfully!";
+        }
         $post->save();
 
-        $categoryController = new CategoryController;
-        $categoryController->store($request->category, $post);
-        return redirect()->route('posts.show', $post->slug)->with("success", "Your post was created successfully!");
+        if ($request->category !== null) {
+            $categoryController = new CategoryController;
+            $categoryController->store($request->category, $post);
+        }
+
+        return redirect()->route('posts.show', $post->slug)->with("success", $message);
     }
 
     public function show($slug)
@@ -128,5 +154,13 @@ class PostController extends Controller
     {
         $comments = Comment::where([['post_id', $post->id], ['deleted_at', null]]);
         return $comments;
+    }
+
+    public function setPublishedTrue($id)
+    {
+        $post = Post::where('id', $id)->firstOrFail();
+        $post->published = 1;
+        $post->update();
+        return response()->json(['success', 'true']);
     }
 }

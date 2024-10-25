@@ -11,7 +11,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-{{ $type }}">Confirm</button>
+                    <button type="submit" id="btn-submit-{{ $id }}" class="btn btn-{{ $type }}" data-bs-dismiss="modal">Confirm</button>
                 </div>
             </div>
         </div>
