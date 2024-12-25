@@ -71,6 +71,14 @@
                         </div>
                     </li>
                     @endif
+                    <span class="nav-item">
+                        <form action="{{ route('posts.search') }}">
+                            <div class="form-inline">
+                                <input type="text" class="form-control" id="search" name="search" placeholder="Search">
+                            </div>
+                              <!--<button type="submit" class="btn btn-primary">Submit</button>-->
+                        </form>
+                    </span>
                 </ul>
             </div>
 

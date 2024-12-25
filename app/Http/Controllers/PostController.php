@@ -40,7 +40,7 @@ class PostController extends Controller
 
         $request->validate([
             'title' => 'required',
-            'description' => 'required',
+            'description' => 'nullable',
             'image' => 'nullable|file|mimes:jpg,jpeg,png,gif,pdf|max:2048',
             'category' => 'nullable'
         ]);
@@ -148,6 +148,15 @@ class PostController extends Controller
         } else {
             return $slug = $slug;
         }
+    }
+
+    public function search(Request $request)
+    {
+        $search = $request->search;
+        $posts = Post::where("title","LIKE","%". $search ."%")->get();
+        $title = Str::limit("Results for $search", 40);
+        $search = Str::limit($search, 40);
+        return view('posts.search', compact(['posts', 'search', 'title']));
     }
 
     public function getPostComments(Post $post)

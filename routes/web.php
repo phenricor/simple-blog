@@ -33,6 +33,7 @@ Route::get('/posts/{slug}/edit', [PostController::class, 'edit'])->name('posts.e
 Route::get('/posts/{slug}', [PostController::class, 'show'])->name('posts.show');
 Route::get('/posts/{post_id}', [PostController::class, 'showId'])->name('posts.showId');
 Route::post('/posts/{id}/setPublishedTrue', [PostController::class, 'setPublishedTrue'])->name('posts.setPublishedTrue');
+Route::get("/search", [PostController::class, 'search'])->name('posts.search');
 
 Route::feeds();
 
