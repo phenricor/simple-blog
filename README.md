@@ -12,8 +12,8 @@ This is a personal project using Laravel. The application is a simple blog for b
 - [x] Customizable social media icons (github, linkedin, telegram etc.)
 - [x] RSS Feed
 - [x] Schedule post
+- [X] Search system
 - [ ] Pinned post
-- [ ] Search system
 - [ ] Layout customization
 - [ ] Reactions to posts
 # Requirements
